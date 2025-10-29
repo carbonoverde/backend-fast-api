@@ -1,12 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
-from app.routers import health, items
+from app.routers import health, sustainability
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
-    description="Uma API FastAPI bem estruturada",
+    description="API FastAPI para Análise de Sustentabilidade e Pegada Verde",
 )
 
 # Configurar CORS
@@ -20,7 +20,7 @@ app.add_middleware(
 
 # Incluir routers
 app.include_router(health.router, tags=["Health"])
-app.include_router(items.router, prefix="/api/v1", tags=["Items"])
+app.include_router(sustainability.router, prefix="/api/v1", tags=["Sustentabilidade"])
 
 
 @app.on_event("startup")

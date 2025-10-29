@@ -1,6 +1,6 @@
-# Backend FastAPI
+# Backend FastAPI - Análise de Sustentabilidade
 
-Uma aplicação FastAPI bem estruturada com arquitetura modular e pronta para escalar.
+Uma aplicação FastAPI especializada em análise de sustentabilidade e pegada verde, que recebe dados de formulários e calcula se o uso de materiais (latao, agua, papel, etc.) é ecologicamente econômico para o tamanho da empresa.
 
 ## 🏗️ Estrutura do Projeto
 
@@ -13,17 +13,17 @@ backend-fast-api/
 │   ├── routers/             # Endpoints da API
 │   │   ├── __init__.py
 │   │   ├── health.py        # Endpoints de saúde
-│   │   └── items.py         # Endpoints de items
-│   ├── models/              # Modelos de dados
+│   │   └── sustainability.py # Endpoints de sustentabilidade
+│   ├── schemas/             # Schemas Pydantic
 │   │   ├── __init__.py
-│   │   └── item.py
-│   └── schemas/             # Schemas Pydantic
+│   │   └── sustainability.py # Schemas para análises
+│   └── utils/               # Utilitários
 │       ├── __init__.py
-│       └── item.py
+│       └── sustainability.py # Cálculos e lógica de negócio
 ├── tests/                   # Testes
 │   ├── __init__.py
 │   ├── test_health.py
-│   └── test_items.py
+│   └── test_sustainability.py
 ├── main.py                  # Ponto de entrada (legacy)
 ├── requirements.txt         # Dependências de produção
 ├── requirements-dev.txt     # Dependências de desenvolvimento
@@ -99,12 +99,37 @@ pytest --cov=app tests/
 - `GET /health` - Verifica a saúde da API
 - `GET /` - Informações gerais da API
 
-### Items (CRUD)
-- `GET /api/v1/items` - Lista todos os items
-- `GET /api/v1/items/{item_id}` - Busca item por ID
-- `POST /api/v1/items` - Cria novo item
-- `PUT /api/v1/items/{item_id}` - Atualiza item
-- `DELETE /api/v1/items/{item_id}` - Deleta item
+### Análise de Sustentabilidade
+- `POST /api/v1/sustainability/analyze` - Analisa sustentabilidade de materiais
+- `GET /api/v1/sustainability/benchmarks/{company_size}` - Obter benchmarks por tamanho
+- `GET /api/v1/sustainability/materials` - Listar materiais disponíveis
+- `GET /api/v1/sustainability/company-sizes` - Listar tamanhos de empresa
+- `GET /api/v1/sustainability/example` - Exemplo de uso da API
+
+### Exemplo de Request
+
+```json
+{
+  "company": {
+    "size": "media",
+    "employees": 100,
+    "industry": "Manufatura",
+    "current_material_consumption": null
+  },
+  "proposed_materials": [
+    {
+      "type": "latao",
+      "quantity": 8.5,
+      "unit": "toneladas"
+    },
+    {
+      "type": "agua",
+      "quantity": 850,
+      "unit": "toneladas"
+    }
+  ]
+}
+```
 
 ## 🔧 Configuração
 
@@ -137,11 +162,20 @@ As configurações podem ser ajustadas através do arquivo `.env` ou variáveis 
 - ✅ Testes automatizados
 - ✅ Type hints
 
-## 📝 Notas
+## 📖 Documentação Adicional
 
-Este é um projeto base e pode ser expandido conforme necessário. Algumas melhorias futuras:
+Para mais exemplos de uso e casos de teste, consulte:
+- [EXAMPLES.md](EXAMPLES.md) - Exemplos detalhados de uso da API
+- [Swagger UI](http://localhost:8000/docs) - Documentação interativa
 
-- [ ] Integração com banco de dados (SQLAlchemy, MongoDB, etc.)
+## 📝 Próximos Passos
+
+Melhorias sugeridas:
+
+- [ ] Integração com banco de dados para histórico de análises
+- [ ] Dashboard de métricas de sustentabilidade
+- [ ] Comparação com outras empresas do setor
+- [ ] Exportação de relatórios em PDF
 - [ ] Autenticação e autorização
 - [ ] Logging estruturado
 - [ ] Rate limiting
